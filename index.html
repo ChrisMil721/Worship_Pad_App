@@ -1,0 +1,59 @@
+<html lang="en">
+    <meta charset="utf-8"/>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel=stylesheet href="style.css">
+</head>
+<body>
+    <canvas id="1"></canvas>
+    <canvas id="2"></canvas>
+    <div id="content" class="desktopgrid">
+        <h1 id="title">worship pad player</h1>
+        <div id="mobilebuttonbox" onclick="toggleMobile()"><img id="togglemobile" src="assets/desktop.png"></div>
+        <div id="colorbuttonbox" onclick="toggleColor()"><img id="togglecolor" src="assets/color.png"></div>
+        <div id="mixerbuttonbox" onclick="toggleMixer()"><img src="assets/mixer.png"></div>
+        <div id="displayname"><span id="bankname">bank 1- </span><span id="pitchname"> C</span></div>
+        <div id="banks">
+            <button onclick="declareBank1()" type="button">1</button>
+            <button onclick="declareBank2()" type="button">2</button>
+            <button onclick="declareBank3()" type="button">3</button>
+            <button onclick="declareBank4()" type="button">4</button>
+            <button onclick="declareBank5()" type="button">5</button>
+        </div>
+        <div id="playpause" onclick="playPause()"><img src="assets/play.png"></div>
+        <div id="pitches">
+            <button id="p1" onclick="declarePitch1()" type="button">C</button>
+            <button id="p2" onclick="declarePitch2()" type="button">C#</button>
+            <button id="p3" onclick="declarePitch3()" type="button">D</button>
+            <button id="p4" onclick="declarePitch4()" type="button">D#</button>
+            <button id="p5" onclick="declarePitch5()" type="button">E</button>
+            <button id="p6" onclick="declarePitch6()" type="button">F</button>
+            <button id="p7" onclick="declarePitch7()" type="button">F#</button>
+            <button id="p8" onclick="declarePitch8()" type="button">G</button>
+            <button id="p9" onclick="declarePitch9()" type="button">G#</button>
+            <button id="p10" onclick="declarePitch10()" type="button">A</button>
+            <button id="p11" onclick="declarePitch11()" type="button">A#</button>
+            <button id="p12" onclick="declarePitch12()" type="button">B</button>
+        </div> 
+        <div id="fadein" class="slider"><input type="range" min="1" max="100" value="50" id="fadeindata" oninput="fadeInTime()"></div>
+        <div id="fadeout" class="slider"><input type="range" min="1" max="100" value="50"  id="fadeoutdata" oninput="fadeInTime()"></div>
+        <div id="master" class="slider"><input type="range" min="1" max="100" value="50" id="masterdata" oninput="newVolume()"></div>
+    </div>
+    <audio id="b1p1"><source src="bank1/cn.mp3"></audio>
+    <audio id="b1p2"><source src="bank1/db.mp3"></audio>
+    <audio id="b1p3"><source src="bank1/dn.mp3"></audio>
+    <audio id="b1p4"><source src="bank1/eb.mp3"></audio>
+    <audio id="b1p5"><source src="bank1/en.mp3"></audio>
+    <audio id="b1p6"><source src="bank1/fn.mp3"></audio>
+    <audio id="b1p7"><source src="bank1/gb.mp3"></audio>
+    <audio id="b1p8"><source src="bank1/gn.mp3"> </audio>
+    <audio id="b1p9"><source src="bank1/ab.mp3"></audio>
+    <audio id="b1p10"><source src="bank1/an.mp3"></audio>
+    <audio id="b1p11"><source src="bank1/bb.mp3"></audio>
+    <audio id="b1p12"><source src="bank1/bn.mp3"></audio>
+    <audio id="b2p1"><source src="bank2/TSCA.wav"></audio>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
