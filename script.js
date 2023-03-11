@@ -12,7 +12,6 @@ var fadeOutLength = 4025;
 var intLength = 20; // interval length
 var expBase = 1.00160032328;
 var logBase = 1.35566926788;
-var i = 0;
 
 var volumes = []; 
 var VAM = .5; // Volume, According to the Master
@@ -85,21 +84,23 @@ function fadeMath(){
     intLength = (shiftLength/1000);
   }
   function fadeCalc(){
-    i=0;
-    console.log('check');}
-    /*if(i<=499){
+    
+    console.log('check');
+
+    for(let i=1; i<500; i++){
         volumes[i] = Math.pow(expBase, (intLength*i));  
+        console.log(volumes);
         i++;   
     }
-    else if(i>499 && i<=999){
+    for(let i=501; i<1000; i++){
         volumes[i] = Math.pow(logBase, (intLength*i));  
         i++;  
     }
-    else{
-        console.log(volumes)
-        // do nothing //
-    }
-}*/
+        /*new Chart(document.getElementById('1'),{
+            type: 'line',
+            data: {datasets:[volumes]}
+        })*/
+}
 // ---------------------------- what's the file name? -------------------------------------- //
 function declareBank1() {
     bankOnDeck = 1;
