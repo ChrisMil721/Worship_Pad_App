@@ -75,7 +75,7 @@ function switchLane(){
 function fadeMath(){
     // y = a^x ---> a = y^(1/x) -- "x" is time elapsed since the fade began, "y" is resultant volume, "a" defines the curve
     x = shiftLength/2;
-    y = VAM/2; 
+    y = (VAM/2)*100; 
     // the x and y are cut in half to compensate for my makeshift s-curve; its makeup: an exponential function until the halfway point then a logarithmic function for the remainder (or vice versa) 
     a = Math.pow (y, (1/x)); // this variable plugs in the values of the final position of "x" and "y", then returns "a" which is needed for the exponential function
     b = Math.pow (x, (1/y)); // this variable does the same thing but for the logarithmic function
@@ -87,15 +87,22 @@ function fadeMath(){
     
     console.log('check');
 
-    for(let i=1; i<500; i++){
-        volumes[i] = Math.pow(expBase, (intLength*i));  
-        console.log(volumes);
+    for(let i=0; i<=499; i++){
+        y = Math.pow(expBase, (intLength*i));  
+        volumes[i] = y/100;
         i++;   
     }
-    for(let i=501; i<1000; i++){
-        volumes[i] = Math.pow(logBase, (intLength*i));  
+    for(let i=500; i<=999; i++){
+        y = Math.log(intLength*i) / Math.log(logBase);  
+        volumes[i] = y/100;
         i++;  
     }
+    console.log(volumes);
+    console.log(shiftLength);
+    console.log(intLength);
+    console.log(expBase);
+    console.log(logBase);
+    console.log(volumes[499]);
         /*new Chart(document.getElementById('1'),{
             type: 'line',
             data: {datasets:[volumes]}
