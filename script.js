@@ -94,7 +94,7 @@ function fadeMath(){
     }
     for(let i=500; i<=999; i++){
         y = Math.log(intLength*i) / Math.log(logBase);  
-        volumes[i] = y/100;
+        volumes[i] = (VAM/2) + (y/100);
         i++;  
     }
     console.log(volumes);
@@ -102,12 +102,7 @@ function fadeMath(){
     console.log(intLength);
     console.log(expBase);
     console.log(logBase);
-    console.log(volumes[499]);
-        /*new Chart(document.getElementById('1'),{
-            type: 'line',
-            data: {datasets:[volumes]}
-        })*/
-}
+  }
 // ---------------------------- what's the file name? -------------------------------------- //
 function declareBank1() {
     bankOnDeck = 1;
