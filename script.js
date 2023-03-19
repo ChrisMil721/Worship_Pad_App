@@ -9,12 +9,16 @@ var bankOnDeck = 1;
 
 var fadeInLength = 4025;
 var fadeOutLength = 4025;
+var shiftLength = 4025;
 var intLength = 20; // interval length
 var expBase = 1.00160032328;
 var logBase = 1.35566926788;
 
 var volumes = []; 
 var VAM = .5; // Volume, According to the Master
+
+let stateToZero = setTimeout(function(){audioState = 0;}, shiftLength);
+
 // ----------------------------- who's who of HTML input ----------------------------------- //
 var master = document.getElementById('masterdata');
 var fISlider = document.getElementById('fadeindata');
@@ -56,15 +60,20 @@ function playAudio(){
     isPlaying[lane] = audioOnDeck;
     isPlaying[lane].volume = 0;
     audioOnDeck.play();
-    fadeInFader();
+    i=0;
+    fadeInLoop = setInterval(fadeInFader, intLength);
     console.log('play');
+    clearTimeout(stateToZero);
     audioState = 1;
 }
 function pauseAudio(){
     shiftLength = fadeOutLength;
     fadeMath();
+    fadeCalc();
+    o=999;
+    fadeOutLoop = setInterval(fadeOutFader, intLength); 
     setTimeout(function(){isPlaying[lane].pause();}, shiftLength);
-    zerostate = setTimeout(function(){audioState = 0;}, shiftLength);
+    stateToZero = setTimeout(function(){audioState = 0;}, shiftLength);
 }
 function switchLane(){
     switch(lane){
@@ -84,11 +93,10 @@ function fadeMath(){
     expBase = a; 
     logBase = b;
     intLength = (shiftLength/1000);
+    console.log(shiftLength);
+    console.log(intLength);
   }
   function fadeCalc(){
-    
-    console.log('check');
-
     for(let i=0; i<=499; i++){
         y = Math.pow(expBase, (intLength*i));  
         volumes[i] = y/100;   
@@ -97,36 +105,31 @@ function fadeMath(){
         y = Math.log(intLength*i) / Math.log(logBase);  
         volumes[i] = (VAM/2) + (y/100);
     }
-    console.log(volumes);
-    console.log(shiftLength);
-    console.log(intLength);
-    console.log(expBase);
-    console.log(logBase);
-    document.getElementById('test').append(volumes);
   }
   function fadeInFader(){
-    i=0;
-    setInterval(function(){
-        if (i<=999){
-        isPlaying[lane].volume = volumes[i];
+    console.log('a');
+    myLane = lane;
+    if (i<=999){
+        isPlaying[myLane].volume = volumes[i];
+        console.log(i);
         i++;
     }
-        else{
-            // call clear interval function
-        }
-    }, intLength)
+    else{
+        clearInterval(fadeInLoop);
+        // call clear interval function
+    }
   }
   function fadeOutFader(){
-    i=999;
-    setInterval(function(){
-        if (i>=0){
-        isPlaying[lane].volume = volumes[i];
-        i--;
+    console.log(o);
+    myLane = lane;
+    if (o>=0){
+        isPlaying[myLane].volume = volumes[i];
+        o--;
     }
-        else{
-            // call clear interval function
-        }
-    }, intLength)
+    else{
+        clearInterval(fadeOutLoop);
+        // call clear interval function
+    }
   }
 // ---------------------------- what's the file name? -------------------------------------- //
 function declareBank1(){
