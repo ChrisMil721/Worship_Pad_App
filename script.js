@@ -42,11 +42,11 @@ fOSlider.oninput = function fadeOutTime(){
 // ---------------------------------------- play/pause ------------------------------------- //
 function playPause(){
     switch(audioState){
-        case 0: playAudio(); console.log('zero');
+        case 0: audioState = 1; console.log('zero'); playAudio(); 
             break;// nothing is playing --> play audio --> case 1
-        case 1: pauseAudio(); console.log('uno'); audioState = 2;
+        case 1: audioState = 2; console.log('uno'); pauseAudio(); 
             break;// audio is playing --> pause audio --> case 0
-        case 2: switchLane(); playAudio(); 
+        case 2: console.log('dos'); switchLane(); playAudio(); 
             break;// audio is fading out --> start new pad --> (case 3 -->) case 1
         case 3: console.log("you're doing too much"); 
             break;//audio is fading out + fading in --> app does nothing --> case 1
@@ -60,27 +60,31 @@ function playAudio(){
     isPlaying[lane] = audioOnDeck;
     isPlaying[lane].volume = 0;
     audioOnDeck.play();
-    i=0;
-    fadeInLoop = setInterval(fadeInFader, intLength);
-    console.log('play');
+    i = 0;
+    fadeInLoop = setInterval(fadeInFader, 0.001);
     clearTimeout(stateToZero);
-    audioState = 1;
+    
+    console.log('a');
 }
 function pauseAudio(){
+    trackToPause = isPlaying[lane];
     shiftLength = fadeOutLength;
     fadeMath();
     fadeCalc();
-    o=999;
+    o = 999;
     fadeOutLoop = setInterval(fadeOutFader, intLength); 
-    setTimeout(function(){isPlaying[lane].pause();}, shiftLength);
+    setTimeout(function(){trackToPause.pause();}, shiftLength);
+    stateToOne = setTimeout(function(){audioState = 1;}, (shiftLength - 1));
     stateToZero = setTimeout(function(){audioState = 0;}, shiftLength);
+    console.log('b');
 }
 function switchLane(){
     switch(lane){
-        case 0: lane = 1; console.log("why'd you switchup?"); audioState = 3; clearTimeout(zerostate); break;
-        case 1: lane = 0; console.log("why'd you switchup?"); audioState = 3; clearTimeout(zerotate); break;
+        case 0: lane = 1; console.log("why'd you switchup?"); audioState = 3; clearTimeout(stateToZero); break;
+        case 1: lane = 0; console.log("why'd you switchup?"); audioState = 3; clearTimeout(stateToZero); break;
         default: console.log("..erm"); break;
     }
+    console.log('c');
 }
 // ------------------------------------- fade i/o methods ---------------------------------- //
 function fadeMath(){
@@ -93,8 +97,6 @@ function fadeMath(){
     expBase = a; 
     logBase = b;
     intLength = (shiftLength/1000);
-    console.log(shiftLength);
-    console.log(intLength);
   }
   function fadeCalc(){
     for(let i=0; i<=499; i++){
@@ -106,12 +108,10 @@ function fadeMath(){
         volumes[i] = (VAM/2) + (y/100);
     }
   }
-  function fadeInFader(){
-    console.log('a');
+function fadeInFader(){
     myLane = lane;
     if (i<=999){
         isPlaying[myLane].volume = volumes[i];
-        console.log(i);
         i++;
     }
     else{
@@ -119,11 +119,10 @@ function fadeMath(){
         // call clear interval function
     }
   }
-  function fadeOutFader(){
-    console.log(o);
+function fadeOutFader(){
     myLane = lane;
     if (o>=0){
-        isPlaying[myLane].volume = volumes[i];
+        isPlaying[myLane].volume = volumes[o];
         o--;
     }
     else{
